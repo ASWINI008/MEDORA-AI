@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medora-backend-deployment
+  labels:
+    app: medora-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: medora-backend
+  template:
+    metadata:
+      labels:
+        app: medora-backend
+    spec:
+      containers:
+      - name: backend
+        image: medora-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/medora_db"
+        - name: AI_SERVICE_URL
+          value: "http://ai-service-cluster:8000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: medora-backend-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: medora-backend
