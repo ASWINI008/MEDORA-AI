@@ -1,0 +1,25 @@
+{
+  "model": "RandomForestRegressor",
+  "target": "Cost",
+  "features": [
+    "Age",
+    "Gender",
+    "Condition",
+    "Procedure",
+    "Length_of_Stay"
+  ],
+  "train_size": 787,
+  "test_size": 197,
+  "random_state": 42,
+  "linear_regression_baseline": {
+    "mae": 0.0,
+    "rmse": 0.0,
+    "r2": 1.0
+  },
+  "random_forest": {
+    "mae": 0.0,
+    "rmse": 0.0,
+    "r2": 1.0
+  },
+  "best_model": "RandomForest"
+}

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: medora-postgres
+    environment:
+      POSTGRES_DB: medora_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ai-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.ai
+    container_name: medora-ai-service
+    ports:
+      - "8000:8000"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: medora-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/medora_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgrespassword
+      SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
+      AI_SERVICE_URL: http://ai-service:8000
+      DB_POOL_MAX: 20
+      DB_POOL_MIN: 5
+      KAFKA_ENABLED: "false"
+    depends_on:
+      - postgres
+      - ai-service
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: medora-frontend
+    ports:
+      - "2006:2006"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

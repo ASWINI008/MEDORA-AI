@@ -1,0 +1,226 @@
+{
+  "model_status": "OPTIMIZED_PRODUCTION",
+  "optimization_timestamp": "2026-11-01T19:31:11.378542",
+  "dataset": {
+    "name": "synthetic_hospital_data.csv",
+    "type": "Synthetic Operational Queue & Workflow Data",
+    "total_records": 1200,
+    "train_samples": 840,
+    "val_samples": 180,
+    "test_samples": 180,
+    "random_state": 42
+  },
+  "features": {
+    "base": [
+      "patient_arrival_rate",
+      "queue_length",
+      "available_doctors",
+      "available_nurses",
+      "available_beds",
+      "appointment_count",
+      "department_workload",
+      "resource_utilization"
+    ],
+    "engineered": [
+      "patient_arrival_rate",
+      "queue_length",
+      "available_doctors",
+      "available_nurses",
+      "available_beds",
+      "appointment_count",
+      "department_workload",
+      "resource_utilization",
+      "staff_capacity",
+      "queue_per_doctor",
+      "arrival_per_staff",
+      "net_flow_pressure"
+    ]
+  },
+  "random_forest": {
+    "algorithm": "RandomForestRegressor",
+    "hyperparameters": {
+      "n_estimators": 250,
+      "max_depth": 16,
+      "min_samples_split": 3,
+      "min_samples_leaf": 1,
+      "max_features": "sqrt",
+      "bootstrap": true
+    },
+    "baseline": {
+      "val_r2": 0.9767,
+      "val_mae": 4.02,
+      "val_rmse": 5.29,
+      "test_r2": 0.9721,
+      "test_mae": 4.16,
+      "test_rmse": 5.57
+    },
+    "optimized": {
+      "val_r2": 0.9878,
+      "val_mae": 2.88,
+      "val_rmse": 3.83,
+      "test_r2": 0.9839,
+      "test_mae": 3.23,
+      "test_rmse": 4.24
+    },
+    "improvement": {
+      "mae_reduction_minutes": 0.93,
+      "mae_reduction_percent": 22.36,
+      "rmse_reduction_minutes": 1.33,
+      "r2_gain": 0.0118
+    }
+  },
+  "xgboost": {
+    "algorithm": "XGBClassifier",
+    "hyperparameters": {
+      "n_estimators": 180,
+      "learning_rate": 0.06,
+      "max_depth": 4,
+      "subsample": 0.85,
+      "colsample_bytree": 0.85,
+      "min_child_weight": 2,
+      "gamma": 0.1,
+      "reg_alpha": 0.05,
+      "reg_lambda": 1.2
+    },
+    "classes": [
+      "CRITICAL",
+      "HIGH",
+      "LOW",
+      "MEDIUM"
+    ],
+    "baseline": {
+      "accuracy": 85.56,
+      "precision_macro": 82.03,
+      "recall_macro": 81.08,
+      "f1_macro": 0.8143,
+      "f1_weighted": 0.8539
+    },
+    "optimized": {
+      "val_accuracy": 91.11,
+      "accuracy": 90.56,
+      "precision_macro": 88.87,
+      "recall_macro": 89.06,
+      "f1_macro": 0.8884,
+      "f1_weighted": 0.9059
+    },
+    "per_class_comparison": {
+      "CRITICAL": {
+        "orig_precision": 91.25,
+        "orig_recall": 97.33,
+        "orig_f1": 0.9419,
+        "opt_precision": 93.51,
+        "opt_recall": 96.0,
+        "opt_f1": 0.9474,
+        "support": 75.0
+      },
+      "HIGH": {
+        "orig_precision": 82.86,
+        "orig_recall": 72.5,
+        "orig_f1": 0.7733,
+        "opt_precision": 86.84,
+        "opt_recall": 82.5,
+        "opt_f1": 0.8462,
+        "support": 40.0
+      },
+      "LOW": {
+        "orig_precision": 90.0,
+        "orig_recall": 87.8,
+        "orig_f1": 0.8889,
+        "opt_precision": 97.37,
+        "opt_recall": 90.24,
+        "opt_f1": 0.9367,
+        "support": 41.0
+      },
+      "MEDIUM": {
+        "orig_precision": 64.0,
+        "orig_recall": 66.67,
+        "orig_f1": 0.6531,
+        "opt_precision": 77.78,
+        "opt_recall": 87.5,
+        "opt_f1": 0.8235,
+        "support": 24.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        72,
+        3,
+        0,
+        0
+      ],
+      [
+        5,
+        33,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        37,
+        4
+      ],
+      [
+        0,
+        2,
+        1,
+        21
+      ]
+    ]
+  },
+  "kmeans": {
+    "algorithm": "KMeans",
+    "n_clusters": 3,
+    "silhouette_score": 0.1612,
+    "elbow_inertia": 9822.640398058946,
+    "semantic_labels": {
+      "2": "LOW WORKLOAD",
+      "1": "MODERATE WORKLOAD",
+      "0": "HIGH WORKLOAD"
+    },
+    "cluster_profiles": {
+      "0": {
+        "patient_arrival_rate": 41.7,
+        "queue_length": 36.17,
+        "available_doctors": 4.03,
+        "available_nurses": 11.36,
+        "available_beds": 28.02,
+        "appointment_count": 68.23,
+        "department_workload": 72.67,
+        "resource_utilization": 49.28,
+        "staff_capacity": 21.43,
+        "queue_per_doctor": 13.09,
+        "arrival_per_staff": 2.27,
+        "net_flow_pressure": 87.67
+      },
+      "1": {
+        "patient_arrival_rate": 33.11,
+        "queue_length": 24.67,
+        "available_doctors": 8.95,
+        "available_nurses": 17.82,
+        "available_beds": 11.52,
+        "appointment_count": 72.75,
+        "department_workload": 29.98,
+        "resource_utilization": 79.33,
+        "staff_capacity": 40.19,
+        "queue_per_doctor": 3.41,
+        "arrival_per_staff": 0.88,
+        "net_flow_pressure": 33.54
+      },
+      "2": {
+        "patient_arrival_rate": 33.08,
+        "queue_length": 27.0,
+        "available_doctors": 9.38,
+        "available_nurses": 18.62,
+        "available_beds": 38.49,
+        "appointment_count": 68.86,
+        "department_workload": 29.36,
+        "resource_utilization": 29.99,
+        "staff_capacity": 42.08,
+        "queue_per_doctor": 3.5,
+        "arrival_per_staff": 0.83,
+        "net_flow_pressure": 36.47
+      }
+    }
+  }
+}

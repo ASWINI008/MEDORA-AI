@@ -1,0 +1,54 @@
+{
+  "model": "RandomForestClassifier",
+  "target": "Readmission",
+  "features": [
+    "Age",
+    "Gender",
+    "Condition",
+    "Procedure",
+    "Cost",
+    "Length_of_Stay"
+  ],
+  "class_distribution": {
+    "0": 720,
+    "1": 264
+  },
+  "train_size": 787,
+  "test_size": 197,
+  "random_state": 42,
+  "logistic_regression_baseline": {
+    "accuracy": 0.8629,
+    "precision": 0.7321,
+    "recall": 0.7736,
+    "f1": 0.7523,
+    "roc_auc": 0.9514,
+    "confusion_matrix": [
+      [
+        129,
+        15
+      ],
+      [
+        12,
+        41
+      ]
+    ]
+  },
+  "random_forest": {
+    "accuracy": 0.9898,
+    "precision": 0.9811,
+    "recall": 0.9811,
+    "f1": 0.9811,
+    "roc_auc": 0.9975,
+    "confusion_matrix": [
+      [
+        143,
+        1
+      ],
+      [
+        1,
+        52
+      ]
+    ]
+  },
+  "best_model": "RandomForest"
+}

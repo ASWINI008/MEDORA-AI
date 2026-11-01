@@ -1,0 +1,12 @@
+# Multi-stage build for React Vite Frontend
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY medora-frontend/package*.json ./
+RUN npm install
+COPY medora-frontend/ ./
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 2006
+CMD ["nginx", "-g", "daemon off;"]

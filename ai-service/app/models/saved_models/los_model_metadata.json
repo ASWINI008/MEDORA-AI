@@ -1,0 +1,25 @@
+{
+  "model": "RandomForestRegressor",
+  "target": "Length_of_Stay",
+  "features": [
+    "Age",
+    "Gender",
+    "Condition",
+    "Procedure",
+    "Cost"
+  ],
+  "train_size": 787,
+  "test_size": 197,
+  "random_state": 42,
+  "linear_regression_baseline": {
+    "mae": 15.6888,
+    "rmse": 18.377,
+    "r2": -0.0324
+  },
+  "random_forest": {
+    "mae": 16.2446,
+    "rmse": 19.0534,
+    "r2": -0.1098
+  },
+  "best_model": "LinearRegression"
+}
